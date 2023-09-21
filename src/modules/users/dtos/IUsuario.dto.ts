@@ -1,11 +1,11 @@
 export interface ICreateUsuarioDTO {
-  nome: string;
-  senha: string;
-  tipo: string;
+  nome_usuario: string;
+  senha_usuario: string;
+  id_tipo: string;
 }
 
 export interface IUpdateUsuarioDTO {
-  nome?: string;
-  senha?: string;
-  tipo?: string;
+  nome_usuario?: string;
+  senha_usuario?: string;
+  id_tipo?: string;
 }
