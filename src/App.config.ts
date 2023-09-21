@@ -4,6 +4,7 @@ import "express-async-errors";
 import createConnection from "./typeorm/index.config";
 import morgan from "morgan";
 import cors from "cors";
+import { AppError } from "./errors/App.error";
 
 createConnection()
   .then(() => console.log("Conectado ao banco de dados"))
@@ -20,8 +21,23 @@ app.use(
   })
 );
 
-app.get("/", (_request, response) => {
-  return response.json({ mensagem: "Olá, API" });
-});
+app.use(
+  (
+    err: Error,
+    _req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction
+  ) => {
+    if (err instanceof AppError) {
+      return res.status(err.status).json({
+        message: err.message,
+      });
+    }
+
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+);
 
 export { app };
