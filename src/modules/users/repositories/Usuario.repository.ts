@@ -24,36 +24,47 @@ export class UsuarioRepository implements IUsuarioRepository {
   }
 
   async load(): Promise<UsuarioEntity[]> {
-    return this.repository.createQueryBuilder('u')
-      .select(`
+    return this.repository
+      .createQueryBuilder("u")
+      .select(
+        `
         u.id_usuario,
         u.nome_usuario,
         u.senha_usuario,
         u.id_tipo,
         t.tipo_usuario
-      `)
-      .leftJoin('tipo_usuarios', 't', 't.id_tipo = u.id_tipo')
+      `
+      )
+      .leftJoin("tipo_usuario", "t", "t.id_tipo = u.id_tipo")
       .getRawMany();
   }
 
   async loadSingle(id: string): Promise<UsuarioEntity | undefined> {
-    return this.repository.createQueryBuilder('u')
-      .select(`
+    return this.repository
+      .createQueryBuilder("u")
+      .select(
+        `
         u.id_usuario,
         u.nome_usuario,
         u.senha_usuario,
         u.id_tipo,
         t.tipo_usuario
-      `)
-      .leftJoin('tipo_usuarios', 't', 't.id_tipo = u.id_tipo')
-      .where('u.id_usuario = :id', { id })
+      `
+      )
+      .leftJoin("tipo_usuario", "t", "t.id_tipo = u.id_tipo")
+      .where("u.id_usuario = :id", { id })
       .getRawOne();
   }
 
+  async loadNome(nome: string): Promise<UsuarioEntity | undefined> {
+    return this.repository.findOne({
+      where: {
+        nome_usuario: nome,
+      },
+    });
+  }
+
   async update(id: string, data: IUpdateUsuarioDTO): Promise<UpdateResult> {
-    return this.repository.update(
-      { id_usuario: id },
-      { ...data }
-    );
+    return this.repository.update({ id_usuario: id }, { ...data });
   }
 }

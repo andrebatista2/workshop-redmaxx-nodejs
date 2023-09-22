@@ -23,5 +23,5 @@ export class UsuarioEntity {
 
   @ManyToOne(() => TipoUsuarioEntity)
   @JoinColumn({ name: "id_tipo" })
-  tipoUsuario: TipoUsuarioEntity;
+  tipo_usuario: TipoUsuarioEntity;
 }

@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  container_api:
+    image: node:18-alpine
+    container_name: api_legal
+    restart: always
+    working_dir: /app
+    command: sh -c "yarn install && yarn dev"
+    volumes:
+      - '.:/app'
+      - '/etc/timezone:/etc/timezone'
+      - '/etc/localtime:/etc/localtime'
+    environment:
+      - MYSQL_HOST=192.168.191.204
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASS=0000
+      - NODE_PORT=3000
+    ports:
+      - '3000:3000'
