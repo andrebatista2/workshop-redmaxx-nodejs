@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { ITipoUsuarioRepository } from "../repositories/implementations/ITipoUsuario.repository";
 import { TipoUsuarioEntity } from "../entities/TipoUsuario.entity";
 import { AppError } from "../../../errors/App.error";
-import { DeleteResult } from "typeorm";
+import { DeleteResult, UpdateResult } from "typeorm";
 
 @injectable()
 export class TipoUsuarioUsecase {
@@ -38,5 +38,53 @@ export class TipoUsuarioUsecase {
     }
 
     return this.repository.delete(id);
+  }
+
+  async load(): Promise<TipoUsuarioEntity[]> {
+    const data = await this.repository.load();
+    if (data.length === 0) {
+      throw new AppError(
+        "Não existem informações a serem exibidas para este recurso",
+        404
+      );
+    }
+
+    return data;
+  }
+
+  async loadSingle(id: string): Promise<TipoUsuarioEntity | undefined> {
+    if (!id) {
+      throw new AppError("Informe o identificador do Tipo");
+    }
+
+    const data = await this.repository.loadSingle(id);
+    if (!data) {
+      throw new AppError(
+        "Não existem informações a serem exibidas para este recurso",
+        404
+      );
+    }
+
+    return data;
+  }
+
+  async update(id: string, tipo?: string): Promise<UpdateResult> {
+    if (!id) {
+      throw new AppError("Informe o identificador do Tipo");
+    }
+
+    const data = await this.repository.loadSingle(id);
+    if (!data) {
+      throw new AppError(
+        "Não existem informações a serem exibidas para este recurso",
+        404
+      );
+    }
+
+    if (tipo) {
+      data.tipo_usuario = tipo;
+    }
+
+    return this.repository.update(data.id_tipo, data.tipo_usuario);
   }
 }

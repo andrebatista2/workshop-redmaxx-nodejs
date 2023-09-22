@@ -43,6 +43,6 @@ export class TipoUsuarioRepository implements ITipoUsuarioRepository {
   }
 
   async update(id: string, tipo?: string | undefined): Promise<UpdateResult> {
-    return this.repository.update({ tipo_usuario: tipo }, { id_tipo: id });
+    return this.repository.update({ id_tipo: id }, { tipo_usuario: tipo });
   }
 }
