@@ -34,6 +34,14 @@ export class TipoUsuarioRepository implements ITipoUsuarioRepository {
     });
   }
 
+  async loadTipo(tipo: string): Promise<TipoUsuarioEntity | undefined> {
+    return this.repository.findOne({
+      where: {
+        tipo_usuario: tipo,
+      },
+    });
+  }
+
   async update(id: string, tipo?: string | undefined): Promise<UpdateResult> {
     return this.repository.update({ tipo_usuario: tipo }, { id_tipo: id });
   }

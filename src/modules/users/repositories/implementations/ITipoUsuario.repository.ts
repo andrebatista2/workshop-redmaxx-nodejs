@@ -6,5 +6,6 @@ export interface ITipoUsuarioRepository {
   delete(id: string): Promise<DeleteResult>;
   load(): Promise<TipoUsuarioEntity[]>;
   loadSingle(id: string): Promise<TipoUsuarioEntity | undefined>;
+  loadTipo(tipo: string): Promise<TipoUsuarioEntity | undefined>;
   update(id: string, tipo?: string): Promise<UpdateResult>;
 }
